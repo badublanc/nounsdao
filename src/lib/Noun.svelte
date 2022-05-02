@@ -51,7 +51,7 @@
 		</div>
 
 		<div class="flex flex-col">
-			<p class="uppercase secondary">Winner</p>
+			<p class="uppercase secondary">Auction Winner</p>
 			{#if loading}
 				<div class="h-5 w-36 bg-gray-400 rounded-full animate-pulse mt-1.5 mb-2" />
 				<div class="h-4 w-16 bg-gray-400 rounded-full animate-pulse" />
