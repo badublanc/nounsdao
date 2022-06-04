@@ -3,16 +3,18 @@
 	import { scale } from 'svelte/transition';
 	import dayjs from 'dayjs';
 	import { shortenAddress, checkForENS } from '$lib/utils.js';
+	import { Noun } from '@badublanc/nounish';
 
 	export let noun;
 
 	let loading = true;
-	let nounData = {};
+	let nounData = new Noun({ traits: noun.seed });
 	let displayAddress;
 
-	const bg = noun.seed?.background == 0 ? 'cool' : 'warm';
+	const bg = noun.seed.background == 0 ? 'cool' : 'warm';
 
 	const getDisplayAddress = async (address) => {
+		if (!address) return 'n/a';
 		displayAddress = shortenAddress(address);
 		const ens = await checkForENS(address);
 		if (ens) displayAddress = ens;
@@ -20,10 +22,7 @@
 
 	onMount(async () => {
 		try {
-			const res = await fetch(`https://beta.noun-api.com/nounsdao/${noun.id}?format=json,b64`);
-			const data = await res.json();
-			nounData = data;
-			getDisplayAddress(nounData.auction?.winner);
+			getDisplayAddress(noun.auction.winner);
 			loading = false;
 		} catch (error) {
 			console.log(error);
@@ -38,7 +37,7 @@
 			{#if loading}
 				<div class="w-20 h-4 bg-gray-400 rounded-full animate-pulse" />
 			{:else}
-				<p class="secondary">{dayjs.unix(nounData?.created).format('YYYY.MM.DD')}</p>
+				<p class="secondary">{dayjs.unix(noun.created.timestamp).format('YYYY.MM.DD')}</p>
 			{/if}
 		</div>
 
@@ -46,7 +45,7 @@
 			{#if loading}
 				<img src="/loading-skull.gif" alt="" class="w-5/6 mx-auto" />
 			{:else}
-				<img src={nounData.image} alt="" class="w-5/6 mx-auto" />
+				<img src={nounData.base64} alt="" class="w-5/6 mx-auto" />
 			{/if}
 		</div>
 
@@ -62,7 +61,7 @@
 					<p class="font-medium text-xl">{displayAddress}</p>
 				{/if}
 				<p class="font-medium opacity-60">
-					{nounData?.auction?.amount ? nounData?.auction?.amount + ' ETH' : 'n/a'}
+					{noun.auction.amount ? noun.auction.amount + ' ETH' : 'n/a'}
 				</p>
 			{/if}
 		</div>

@@ -4,7 +4,6 @@
 
 	let nouns = daonouns;
 	let max = 11;
-	const totalNouns = daonouns.length;
 
 	const loadMore = () => {
 		max += 12;
@@ -69,9 +68,9 @@
 			<div class="text-sm pb-10">
 				<p>
 					Powered by <a
-						href="https://noun-api.com"
-						alt="noun-api.com"
-						class="hover:text-green-700 hover:underline">Noun-API.com</a
+						href="https://cloudnouns.com"
+						alt="cloudnouns.com"
+						class="hover:text-green-700 hover:underline">Cloud Nouns</a
 					>
 				</p>
 			</div>
